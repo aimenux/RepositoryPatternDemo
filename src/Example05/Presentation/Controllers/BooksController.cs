@@ -1,17 +1,17 @@
-using Example03.Domain;
-using Example03.Infrastructure.Repositories;
+using Example05.Domain;
+using Example05.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Example03.Presentation.Controllers;
+namespace Example05.Presentation.Controllers;
 
 [ApiController]
-[Route("api/[controller]s")]
-public class BookController : ControllerBase
+[Route("api/[controller]")]
+public class BooksController : ControllerBase
 {
-    private readonly IBookRepository _repository;
-    private readonly ILogger<BookController> _logger;
+    private readonly IGenericRepository<Book> _repository;
+    private readonly ILogger<BooksController> _logger;
 
-    public BookController(IBookRepository repository, ILogger<BookController> logger)
+    public BooksController(IGenericRepository<Book> repository, ILogger<BooksController> logger)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -20,7 +20,7 @@ public class BookController : ControllerBase
     [HttpGet("list")]
     public async Task<IActionResult> GetBooksAsync(CancellationToken cancellationToken)
     {
-        var books = await _repository.GetBooksAsync(cancellationToken);
+        var books = await _repository.GetAllAsync(cancellationToken);
         return Ok(books);
     }
     
@@ -28,14 +28,14 @@ public class BookController : ControllerBase
     [ActionName(nameof(GetBookByIdAsync))]
     public async Task<IActionResult> GetBookByIdAsync([FromRoute] int bookId, CancellationToken cancellationToken)
     {
-        var book = await _repository.GetBookByIdAsync(bookId, cancellationToken);
+        var book = await _repository.GetByIdAsync(bookId, cancellationToken);
         return book is null ? NotFound() : Ok(book);
     }
     
     [HttpPost]
     public async Task<IActionResult> PostBookAsync([FromBody] Book book, CancellationToken cancellationToken)
     {
-        await _repository.AddBookAsync(book, cancellationToken);
+        await _repository.AddAsync(book, cancellationToken);
         return CreatedAtAction(nameof(GetBookByIdAsync), new { bookId = book.Id }, book);
     }
     
@@ -47,20 +47,20 @@ public class BookController : ControllerBase
             return BadRequest();
         }
         
-        var rows = await _repository.UpdateBookAsync(book, cancellationToken);
+        var rows = await _repository.UpdateAsync(book, cancellationToken);
         return rows <= 0 ? NotFound() : NoContent();
     }
 
     [HttpDelete("{bookId:int}")]
     public async Task<IActionResult> DeleteBookAsync([FromRoute] int bookId, CancellationToken cancellationToken)
     {
-        var book = await _repository.GetBookByIdAsync(bookId, cancellationToken);
+        var book = await _repository.GetByIdAsync(bookId, cancellationToken);
         if (book is null)
         {
             return NotFound();
         }
 
-        var rows = await _repository.DeleteBookAsync(book, cancellationToken);
+        var rows = await _repository.DeleteAsync(book, cancellationToken);
         return rows <= 0 ? NotFound() : NoContent();
     }    
 }

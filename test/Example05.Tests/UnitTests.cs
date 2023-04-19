@@ -1,13 +1,13 @@
-using Example03.Domain;
-using Example03.Infrastructure;
-using Example03.Infrastructure.Repositories;
-using Example03.Presentation.Controllers;
+using Example05.Domain;
+using Example05.Infrastructure;
+using Example05.Infrastructure.Repositories;
+using Example05.Presentation.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Example03.Tests;
+namespace Example05.Tests;
 
 public class UnitTests
 {
@@ -16,7 +16,7 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new BookRepository(context);
+        var repository = new GenericRepository<Book>(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -38,7 +38,7 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new BookRepository(context);
+        var repository = new GenericRepository<Book>(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -59,7 +59,7 @@ public class UnitTests
         // arrange
         var book = new Book(0, "post-title", "post-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new BookRepository(context);
+        var repository = new GenericRepository<Book>(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -78,7 +78,7 @@ public class UnitTests
         // arrange
         var book = new Book(bookId, "put-title", "put-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new BookRepository(context);
+        var repository = new GenericRepository<Book>(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -95,7 +95,7 @@ public class UnitTests
         // arrange
         var book = new Book(0, "title", "author");
         await using var context = await BuildDbContextAsync();
-        var repository = new BookRepository(context);
+        var repository = new GenericRepository<Book>(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
