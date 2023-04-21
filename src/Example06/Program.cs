@@ -15,7 +15,10 @@ if (!builder.Environment.IsContinuousIntegration())
 {
     builder.Services.AddDbContext<BookDbContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("BooksDBConnection"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("BooksDBConnection"), sqlServerOptions =>
+        {
+            sqlServerOptions.EnableRetryOnFailure();
+        });
     });
 }
 
