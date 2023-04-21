@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E3D2DBB-FBA5-4619-B315-8385F268CD41}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example04.Tests", "test\Example04.Tests\Example04.Tests.csproj", "{5596BFB7-B338-48C2-A080-62EE0D67B1FB}"
