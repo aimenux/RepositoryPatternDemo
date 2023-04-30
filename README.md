@@ -25,7 +25,7 @@ In this repo, i m exploring various ways of using repository pattern in web api 
 >
 > :nine: `Example09` use controller api with generic repository & generic unit of work
 >
-> :ten: `Example10` use minimal api with generic repository & generic unit of work
+> 🔟 `Example10` use minimal api with generic repository & generic unit of work
 > 
 > In order to setup the database, follow these steps :
 >> - Run this docker command : `docker run -e ‘ACCEPT_EULA=Y’ -e ‘SA_PASSWORD=Pa55w0rd’ -p 1433:1433 -d mcr.microsoft.com/mssql/server`
