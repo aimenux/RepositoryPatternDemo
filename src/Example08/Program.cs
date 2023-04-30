@@ -9,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBookEndpoints, BookEndpoints>();
-builder.Services.AddScoped<IGenericRepository, GenericRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 if (!builder.Environment.IsContinuousIntegration())
 {
     builder.Services.AddDbContext<BookDbContext>(options =>

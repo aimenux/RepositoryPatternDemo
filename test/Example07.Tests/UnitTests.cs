@@ -16,7 +16,7 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var repository = new UnitOfWork(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -38,7 +38,7 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var repository = new UnitOfWork(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -59,7 +59,7 @@ public class UnitTests
         // arrange
         var book = new Book(0, "post-title", "post-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var repository = new UnitOfWork(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -78,7 +78,7 @@ public class UnitTests
         // arrange
         var book = new Book(bookId, "put-title", "put-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var repository = new UnitOfWork(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 
@@ -95,7 +95,7 @@ public class UnitTests
         // arrange
         var book = new Book(0, "title", "author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var repository = new UnitOfWork(context);
         var logger = NullLogger<BooksController>.Instance;
         var controller = new BooksController(repository, logger);
 

@@ -2,17 +2,16 @@
 
 namespace Example08.Infrastructure.Repositories;
 
-public interface IGenericRepository
+public interface IGenericRepository<TEntity> where TEntity : class
 {
-    Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(CancellationToken cancellationToken) where TEntity : class;
-    Task<TEntity> GetByIdAsync<TEntity>(int id, CancellationToken cancellationToken) where TEntity : class;
-    Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class;
-    void Update<TEntity>(TEntity entity) where TEntity : class;
-    void Delete<TEntity>(TEntity entity) where TEntity : class;
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken);
+    void Update(TEntity entity);
+    void Delete(TEntity entity);
 }
 
-public class GenericRepository : IGenericRepository
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
     private readonly BookDbContext _context;
 
@@ -21,36 +20,30 @@ public class GenericRepository : IGenericRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(CancellationToken cancellationToken) where TEntity : class
+    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
         var items = await _context.Set<TEntity>().ToListAsync(cancellationToken);
         return items;
     }
 
-    public async Task<TEntity> GetByIdAsync<TEntity>(int id, CancellationToken cancellationToken) where TEntity : class
+    public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var item = await _context.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
         return item;
     }
 
-    public async Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class
+    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
         await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
     }
 
-    public void Update<TEntity>(TEntity entity) where TEntity : class
+    public void Update(TEntity entity)
     {
         _context.Entry(entity).State = EntityState.Modified;
     }
 
-    public void Delete<TEntity>(TEntity entity) where TEntity : class
+    public void Delete(TEntity entity)
     {
         _context.Set<TEntity>().Remove(entity);
-    }
-
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        var rows = await _context.SaveChangesAsync(cancellationToken);
-        return rows;
     }
 }

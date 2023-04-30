@@ -1,6 +1,5 @@
 using Example08.Domain;
 using Example08.Infrastructure;
-using Example08.Infrastructure.Repositories;
 using Example08.Presentation;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +14,9 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var uow = new UnitOfWork(context);
         var logger = NullLogger<BookEndpoints>.Instance;
-        var endpoints = new BookEndpoints(repository, logger);
+        var endpoints = new BookEndpoints(uow, logger);
 
         // act
         var books = await endpoints.GetBooksAsync(CancellationToken.None);
@@ -33,9 +32,9 @@ public class UnitTests
     {
         // arrange
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var uow = new UnitOfWork(context);
         var logger = NullLogger<BookEndpoints>.Instance;
-        var endpoints = new BookEndpoints(repository, logger);
+        var endpoints = new BookEndpoints(uow, logger);
 
         // act
         var book = await endpoints.GetBookByIdAsync(bookId, CancellationToken.None);
@@ -50,9 +49,9 @@ public class UnitTests
         // arrange
         var book = new Book(0, "post-title", "post-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var uow = new UnitOfWork(context);
         var logger = NullLogger<BookEndpoints>.Instance;
-        var endpoints = new BookEndpoints(repository, logger);
+        var endpoints = new BookEndpoints(uow, logger);
 
         // act
         var rows = await endpoints.AddBookAsync(book, CancellationToken.None);
@@ -69,9 +68,9 @@ public class UnitTests
         // arrange
         var book = new Book(bookId, "put-title", "put-author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var uow = new UnitOfWork(context);
         var logger = NullLogger<BookEndpoints>.Instance;
-        var endpoints = new BookEndpoints(repository, logger);
+        var endpoints = new BookEndpoints(uow, logger);
 
         // act
         var rows = await endpoints.UpdateBookAsync(book, CancellationToken.None);
@@ -86,9 +85,9 @@ public class UnitTests
         // arrange
         var book = new Book(0, "title", "author");
         await using var context = await BuildDbContextAsync();
-        var repository = new GenericRepository(context);
+        var uow = new UnitOfWork(context);
         var logger = NullLogger<BookEndpoints>.Instance;
-        var endpoints = new BookEndpoints(repository, logger);
+        var endpoints = new BookEndpoints(uow, logger);
 
         // act
         var rows1 = await endpoints.AddBookAsync(book, CancellationToken.None);
