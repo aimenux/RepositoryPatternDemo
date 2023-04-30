@@ -28,9 +28,9 @@ In this repo, i m exploring various ways of using repository pattern in web api 
 > 🔟 `Example10` use minimal api with generic repository & generic unit of work
 > 
 > In order to setup the database, follow these steps :
->> - Run this docker command : `docker run -e ‘ACCEPT_EULA=Y’ -e ‘SA_PASSWORD=Pa55w0rd’ -p 1433:1433 -d mcr.microsoft.com/mssql/server`
->> - Use this connection string : `"Data Source=localhost;Initial Catalog=BooksDB;User Id=sa;Password=Pa55w0rd;"`
->> - Run database migrations : `dotnet-ef database update`
+> - Run this docker command : `docker run -e ‘ACCEPT_EULA=Y’ -e ‘SA_PASSWORD=Pa55w0rd’ -p 1433:1433 -d mcr.microsoft.com/mssql/server`
+> - Use this connection string : `"Data Source=localhost;Initial Catalog=BooksDB;User Id=sa;Password=Pa55w0rd;"`
+> - Run database migrations : `dotnet-ef database update`
 > 
 
 **`Tools`** : net 6.0, ef-core, xunit, fluent-assertions 
