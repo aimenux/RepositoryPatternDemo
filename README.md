@@ -33,4 +33,4 @@ In this repo, i m exploring various ways of using repository pattern in web api 
 > - Run database migrations : `dotnet-ef database update`
 > 
 
-**`Tools`** : net 6.0, ef-core, xunit, fluent-assertions 
+**`Tools`** : net 7.0, ef-core, xunit, fluent-assertions 
