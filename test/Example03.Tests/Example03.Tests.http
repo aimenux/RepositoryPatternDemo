@@ -1,0 +1,33 @@
+﻿###
+
+GET https://localhost:5001/api/books/list
+
+###
+
+GET https://localhost:5001/api/books/1
+
+###
+
+POST https://localhost:5001/api/books
+Content-Type: application/json
+
+{
+  "id": 0,
+  "title": "abc",
+  "author": "abc"
+}
+
+###
+
+PUT https://localhost:5001/api/books/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "abc",
+  "author": "abc"
+}
+
+###
+
+DELETE https://localhost:5001/api/books/1
