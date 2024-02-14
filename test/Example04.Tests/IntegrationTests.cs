@@ -14,8 +14,8 @@ public class IntegrationTests
     public async Task Should_Get_Books_Returns_Success(string route)
     {
         // arrange
-        var fixture = new WebApiTestFixture();
-        var client = fixture.CreateClient();
+        await using var factory = new ApiWebApplicationFactory();
+        var client = factory.CreateClient();
 
         // act
         var response = await client.GetAsync(route);
@@ -31,8 +31,8 @@ public class IntegrationTests
     {
         // arrange
         var book = new Book(0, "post-title", "post-author");
-        var fixture = new WebApiTestFixture();
-        var client = fixture.CreateClient();
+        await using var factory = new ApiWebApplicationFactory();
+        var client = factory.CreateClient();
 
         // act
         var response = await client.PostAsJsonAsync("api/books", book);
@@ -50,8 +50,8 @@ public class IntegrationTests
     {
         // arrange
         var book = new Book(bookId, "put-title", "put-author");
-        var fixture = new WebApiTestFixture();
-        var client = fixture.CreateClient();
+        await using var factory = new ApiWebApplicationFactory();
+        var client = factory.CreateClient();
 
         // act
         var response = await client.PutAsJsonAsync($"api/books/{bookId}", book);
@@ -67,8 +67,8 @@ public class IntegrationTests
     {
         // arrange
         var book = new Book(0, "post-title", "post-author");
-        var fixture = new WebApiTestFixture();
-        var client = fixture.CreateClient();
+        await using var factory = new ApiWebApplicationFactory();
+        var client = factory.CreateClient();
 
         // act
         var response = await client.PostAsJsonAsync("api/books", book);
@@ -83,12 +83,13 @@ public class IntegrationTests
 
     private static async Task<int> GetBookIdAsync(HttpResponseMessage response)
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
         var body = await response.Content.ReadAsStringAsync();
-        var book = JsonSerializer.Deserialize<Book>(body, options);
+        var book = JsonSerializer.Deserialize<Book>(body, JsonOptions);
         return book.Id;
     }
+    
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 }

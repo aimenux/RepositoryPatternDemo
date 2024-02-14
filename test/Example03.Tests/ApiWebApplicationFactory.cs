@@ -1,14 +1,11 @@
-﻿using Example01.Domain;
-using Example01.Infrastructure;
-using Microsoft.AspNetCore.Hosting;
+﻿using Example03.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Example01.Tests;
+namespace Example03.Tests;
 
-internal class WebApiTestFixture : WebApplicationFactory<Program>
+internal class ApiWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
